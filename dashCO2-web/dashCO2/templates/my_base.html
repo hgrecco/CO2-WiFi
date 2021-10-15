@@ -1,0 +1,17 @@
+{% extends 'admin/base.html' %}
+
+{% block brand %}
+<a href="/admin">
+<img src="{{ url_for('static', filename='logo-exactas.png') }}" style="height: 30px; margin-right: 20px" alt="exactas"/>
+</a>
+{% endblock brand %}
+
+{% block menu_links %}
+{% if g.flask_httpauth_user %}
+<ul class="nav navbar-nav navbar-right">
+    <li>
+    <a class="nav-link" href="/dashboard/">Dashboard</a>
+    </li>
+</ul>
+{% endif %}
+{% endblock menu_links %}

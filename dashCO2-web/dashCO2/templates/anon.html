@@ -1,0 +1,23 @@
+{% extends 'admin/index.html' %}
+
+{% block brand %}
+<img src="{{ url_for('static', filename='logo-exactas.png') }}" style="height: 30px; margin-right: 20px" alt="exactas"/>
+{% endblock brand %}
+
+{% block head_css %}
+{{ super() }}
+<link rel="stylesheet" href="{{ url_for('static', filename='anon.css') }}">
+{% endblock head_css %}
+
+{% block body %}
+{{ super() }}
+
+  <div class="img-wrapper">
+  <img class="img-responsive"
+       src="{{ url_for('static', filename='edificio-full.jpg') }}">
+  <div class="img-overlay">
+    <a type="button" class="btn btn-md btn-danger" href="/admin/login">Ingresar</a>
+  </div>
+</div>
+
+{% endblock body %}}

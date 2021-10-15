@@ -1,0 +1,106 @@
+{% extends 'admin/index.html' %}
+
+{% block body %}
+
+<div class="card mb-3" style="max-width: 100%;">
+  <div class="row no-gutters">
+    <div class="col-md-4">
+      <img src="{{ url_for('static', filename='sensor.png') }}" class="card-img-top mx-auto d-block" alt="Sensores"
+      style="width:190px; max-height:150px;">
+    </div>
+    <div class="col-md-8">
+      <div class="card-body">
+        <h5 class="card-title">Sensores registrados ({{ total }})</h5>
+          <a type="button" class="btn btn-success" href="/admin/special/by_status/ok">
+            Ok <span class="badge badge-light">{{by_status[COLORS.OK] | length}}</span>
+          </a>
+          <a type="button" class="btn btn-warning" href="/admin/special/by_status/warning">
+            Warning <span class="badge badge-light">{{by_status[COLORS.WARNING] | length }}</span>
+          </a>
+          <a type="button" class="btn btn-danger" href="/admin/special/by_status/danger">
+            Danger <span class="badge badge-light">{{by_status[COLORS.DANGER] | length}}</span>
+          </a>
+          <a type="button" class="btn btn-secondary" href="/admin/special/by_status/offline">
+            Offline <span class="badge badge-light">{{by_status[COLORS.OFFLINE] | length}}</span>
+          </a>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="card mb-3" style="max-width: 100%;">
+  <div class="row no-gutters">
+    <div class="col-md-4">
+      <img src="{{ url_for('static', filename='edificio.png') }}" class="card-img-top mx-auto d-block" alt="Edificio"
+      style="width:190px; max-height:150px;">
+    </div>
+    <div class="col-md-8">
+      <div class="card-body">
+        <h5 class="card-title">Edificios</h5>
+        {% for k, devs in by_building.items() %}
+          <a type="button" class="btn btn-primary" href="/admin/device/?flt1_building_equals={{ k }}">
+            {{ k }} <span class="badge badge-light">{{ devs | length }}</span>
+          </a>
+        {% endfor %}
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="card mb-3" style="max-width: 100%;">
+  <div class="row no-gutters">
+    <div class="col-md-4">
+      <img src="{{ url_for('static', filename='firmware.png') }}" class="card-img-top mx-auto d-block" alt="Firmware"
+      style="width:190px; max-height:150px;">
+    </div>
+    <div class="col-md-8">
+      <div class="card-body">
+        <h5 class="card-title">Firmware</h5>
+        <p class="card-text">Versión actual: {{ last_firmware_version }}</p>
+        {% for k, devs in by_firmware_version.items() %}
+          <a type="button" class="btn btn-{{'success' if k == last_firmware_version else 'primary'}}" href="/admin/device/?flt1_firmware_version_equals={{ k }}">
+            {{ k }} <span class="badge badge-light">{{devs | length}}</span>
+          </a>
+        {% endfor %}
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="card mb-3" style="max-width: 100%;">
+  <div class="row no-gutters">
+    <div class="col-md-4">
+      <img src="{{ url_for('static', filename='calibration.png') }}" class="card-img-top mx-auto d-block" alt="Calibración"
+      style="width:190px; max-height:150px;">
+    </div>
+    <div class="col-md-8">
+      <div class="card-body">
+        <h5 class="card-title">Calibración</h5>
+          <a type="button" class="btn btn-success" href="/admin/special/last_calibration/day">
+            Día <span class="badge badge-light">{{by_last_calibration['day'] | length}}</span>
+          </a>
+          <a type="button" class="btn btn-primary" href="/admin/special/last_calibration/week">
+            Semana <span class="badge badge-light">{{by_last_calibration['week'] | length }}</span>
+          </a>
+          <a type="button" class="btn btn-primary" href="/admin/special/last_calibration/month">
+            Mes <span class="badge badge-light">{{by_last_calibration['month'] | length}}</span>
+          </a>
+          <a type="button" class="btn btn-warning" href="/admin/special/last_calibration/year">
+            Año <span class="badge badge-light">{{by_last_calibration['year'] | length}}</span>
+          </a>
+          <a type="button" class="btn btn-danger" href="/admin/special/last_calibration/longer">
+            > Año <span class="badge badge-light">{{by_last_calibration['longer'] | length}}</span>
+          </a>
+          <a type="button" class="btn btn-danger" href="/admin/special/last_calibration/nocal">
+            Nunca <span class="badge badge-light">{{by_last_calibration['N/A'] | length}}</span>
+          </a>
+        <p class="card-text"></p>
+      </div>
+    </div>
+  </div>
+</div>
+
+<hr/>
+Usuario: {{ current_user }} | <a href="{{ url_for('.index', _external=True) | insert_logout}}">logout</a>
+
+{% endblock body %}
